@@ -16,10 +16,25 @@ export function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand('vscwrapped.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from vscWrapped!');
+		vscode.window.showInformationMessage('Hello VS Code!');
 	});
 
 	context.subscriptions.push(disposable);
+
+
+	const currentFile = vscode.window.activeTextEditor;
+	console.log(currentFile?.document.fileName);
+	if (currentFile) {
+		// const uri = currentFile.document.uri;
+		const diagnostics = vscode.languages.getDiagnostics();
+		diagnostics.forEach(([uri, diagnosticArray]) => {
+			diagnosticArray.forEach(diagnostic => {
+				vscode.window.showInformationMessage(diagnostic.message);
+			});
+			// const dis2 = vscode.commands.registerCommand('vscwrapped.helloWorld', () => {
+			// 	vscode.window.showInformationMessage(diagnostic.message);
+		});
+	}
 }
 
 // This method is called when your extension is deactivated
