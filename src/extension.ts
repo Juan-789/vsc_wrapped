@@ -80,7 +80,10 @@ export function activate (context: vscode.ExtensionContext) {
 function webviewContent(context: vscode.ExtensionContext, webview: vscode.Webview): string {
 	const devExperience = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'devExperienceCat.png'));
 	const n3Solutions = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'n3_solutions.jpg'));
-
+	
+    // <div class="slide">😬 4 hours spent on segfaults</div>
+    // <div class="slide">🚀 You pushed code in 7 projects</div>
+    // <div class="slide">✨ Keep going, legend.</div>
 	return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,35 +92,82 @@ function webviewContent(context: vscode.ExtensionContext, webview: vscode.Webvie
     <title>VSC Wrapped</title>
 	<style>
 		body {
-			font-family: 'Segoe UI', sans-serif;
-			margin: 0;
+				margin: 0;
+				background: #111;
+				color: white;
+				font-family: 'Segoe UI', sans-serif;
+				overflow: hidden;
+		}
+		.carousel {
+			position: relative;
+			width: 100%;
+			height: 100vh;
+			display: flex;
 			overflow: hidden;
-			background: #111;
-			color: white;
 		}
 		.slide {
-			height: 100vh;
-			width: 100%;
+			min-width: 100%;
+			transition: transform 0.5s ease;
 			display: flex;
-			justify-content: center;
+			flex-direction: column;
 			align-items: center;
-			font-size: 2em;
-			animation: fadeIn 1s ease;
-      	}
+			justify-content: center;
+		}
+		.slide img {
+			max-width: 70%;
+			height: auto;
+			border-radius: 12px;
+		}
+		.nav-button {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background: rgba(255, 255, 255, 0.2);
+			border: none;
+			color: white;
+			font-size: 2rem;
+			padding: 0.5rem 1rem;
+			cursor: pointer;
+			z-index: 10;
+		}
+		#prev { left: 10px; }
+		#next { right: 10px; }
 	</style>
 </head>
 <body>
-	<div class="slide">
-		<h1>🎉 You coded 120 hours in C++! </h1>
-		<img src="${n3Solutions}" style=" width:25%; border-radius:20px;" />
+	<div class="carousel" id="carousel">
+		<div class="slide">
+			<h1>🎉 You coded 120 hours in C++! </h1>
+			<img src="${n3Solutions}" style=" width:25%; border-radius:20px;" />
+		</div>
+		<div class="slide">
+			Most common bug: “missing ;”
+			<img src="${devExperience}" style="width:80%; border-radius:20px;" />
+		</div>
 	</div>
-    <div class="slide">
-	🔥 Most common bug: “missing ;”
-		<img src="${devExperience}" style="width:80%; border-radius:20px;" />
-	</div>
-    <div class="slide">😬 4 hours spent on segfaults</div>
-    <div class="slide">🚀 You pushed code in 7 projects</div>
-    <div class="slide">✨ Keep going, legend.</div>
+	<button class="nav-button" id="prev">&#8592;</button>
+	<button class="nav-button" id="next">&#8594;</button>
+	
+	<script>
+		const carousel = document.getElementById('carousel');
+		const slides = carousel.children;
+		let index = 0;
+
+		function showSlide(i) {
+			carousel.style.transform = 'translateX(' + (-i * 100) + '%)';
+		}
+
+		document.getElementById('next').onclick = () => {
+			index = (index + 1) % slides.length;
+			showSlide(index);
+		};
+		document.getElementById('prev').onclick = () => {
+			index = (index - 1 + slides.length) % slides.length;
+			showSlide(index);
+		};
+
+		showSlide(index); // show initial
+	</script>
 </body>
 </html>`;
 }
