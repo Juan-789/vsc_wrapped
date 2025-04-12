@@ -83,10 +83,13 @@ function webviewContent(context: vscode.ExtensionContext, webview: vscode.Webvie
 	const segfaults = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'segfault.jpg'));
 	const cppShredded = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'shreddedHead.jpg'));
 	const cppClasses = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'noClass.jpg'));
-	
-    // <div class="slide"></div>
-    // <div class="slide">🚀 You pushed code in 7 projects</div>
-    // <div class="slide">✨ Keep going, legend.</div>
+	const wereSoBack = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'wereBack.gif'));
+	const yippieCat = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'yippee-Cat.gif'));
+	const touchGrass = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'touch-grass.gif'));
+	const lost = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'lost_}.gif'));
+
+    
+
 	return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,26 +177,34 @@ function webviewContent(context: vscode.ExtensionContext, webview: vscode.Webvie
 <body>
 	<div class="carousel">
 		<div class="slides-container" id="carousel">
+			<div class="slide">
+				<h1> Your VSCode wrapped of the week!!!</h1>
+				<img src="${yippieCat}" style="width:20%; border-radius:20px;" />				
+			</div>
+			<div class="slide">
+				<h1>🎉 You coded for 7,563 minutes this week!!!</h1>
+				<img src="${wereSoBack}" style="width:20%; border-radius:20px;" />				
+				<img src="${touchGrass}" style="width:20%; border-radius:20px;" />				
+			
+			</div>
 			<div class="slide" style="position: relative;">
-				<h1>🎉 You coded 120 hours in C++! </h1>
+				<h1>🎉 You wrote 527 lines in C++! </h1>
 				<div class="image-layer">
 					<img src="${cppShredded}" style=" width:20%; border-radius:20px;" class="cppShredded"/>
 					<img src="${cppClasses}" style=" width:30%; border-radius:20px;" class="cppClasses"/>
 					<img src="${n3Solutions}" style=" width:25%; border-radius:20px;" class="n3Sols"/>
 				</div>
-			</div>
-			<div class="slide">
-				<h1>Most common bug: “missing ;”</h1>
-				<img src="${devExperience}" style="width:20%; border-radius:20px;" />
+				<h5>Or chat did </h5>
 			</div>
 			<div class="slide">
 				<h1>😬 4 hours spent on segfaults</h1>
 				<img src="${segfaults}" style=" width:20%; border-radius:20px;" />
-			</div>
+			</div>	
 			<div class="slide">
-				<h1>Most common bug: “missing ;”</h1>
-			</div>
-		
+				<h1>Most common bug: “missing }”</h1>
+				<img src="${lost}" style="width:20%; border-radius:20px;" />
+				<img src="${devExperience}" style="width:20%; border-radius:20px;" />
+			</div>		
 		</div>
 	</div>
 	<button class="nav-button" id="prev">&#8592;</button>
