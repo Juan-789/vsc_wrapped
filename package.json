@@ -16,6 +16,10 @@
       {
         "command": "vscwrapped.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "vscwrapped.saveStats",
+        "title": "Save Stats"
       }
     ]
   },
