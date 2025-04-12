@@ -80,8 +80,11 @@ export function activate (context: vscode.ExtensionContext) {
 function webviewContent(context: vscode.ExtensionContext, webview: vscode.Webview): string {
 	const devExperience = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'devExperienceCat.png'));
 	const n3Solutions = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'n3_solutions.jpg'));
+	const segfaults = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'segfault.jpg'));
+	const cppShredded = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'shreddedHead.jpg'));
+	const cppClasses = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'noClass.jpg'));
 	
-    // <div class="slide">😬 4 hours spent on segfaults</div>
+    // <div class="slide"></div>
     // <div class="slide">🚀 You pushed code in 7 projects</div>
     // <div class="slide">✨ Keep going, legend.</div>
 	return `<!DOCTYPE html>
@@ -130,19 +133,67 @@ function webviewContent(context: vscode.ExtensionContext, webview: vscode.Webvie
 			cursor: pointer;
 			z-index: 10;
 		}
+		.slides-container {
+			display: flex;
+			width: 100%;
+			transition: transform 0.5s ease;
+		}
+		.image-layer {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+
+		.image-layer img {
+			position: absolute;
+			border-radius: 20px;
+		}
+
+		.n3Sols {
+			top: 1%;
+			left: 40%;
+			width: 25%;
+		}
+
+		.cppShredded {
+			top: 20%;
+			right: 15%;
+		}
+
+		.cppClasses {
+			top: 40%;
+			left: 10%;
+
+		}
+
+
 		#prev { left: 10px; }
 		#next { right: 10px; }
 	</style>
 </head>
 <body>
-	<div class="carousel" id="carousel">
-		<div class="slide">
-			<h1>🎉 You coded 120 hours in C++! </h1>
-			<img src="${n3Solutions}" style=" width:25%; border-radius:20px;" />
-		</div>
-		<div class="slide">
-			Most common bug: “missing ;”
-			<img src="${devExperience}" style="width:80%; border-radius:20px;" />
+	<div class="carousel">
+		<div class="slides-container" id="carousel">
+			<div class="slide" style="position: relative;">
+				<h1>🎉 You coded 120 hours in C++! </h1>
+				<div class="image-layer">
+					<img src="${cppShredded}" style=" width:20%; border-radius:20px;" class="cppShredded"/>
+					<img src="${cppClasses}" style=" width:30%; border-radius:20px;" class="cppClasses"/>
+					<img src="${n3Solutions}" style=" width:25%; border-radius:20px;" class="n3Sols"/>
+				</div>
+			</div>
+			<div class="slide">
+				<h1>Most common bug: “missing ;”</h1>
+				<img src="${devExperience}" style="width:20%; border-radius:20px;" />
+			</div>
+			<div class="slide">
+				<h1>😬 4 hours spent on segfaults</h1>
+				<img src="${segfaults}" style=" width:20%; border-radius:20px;" />
+			</div>
+			<div class="slide">
+				<h1>Most common bug: “missing ;”</h1>
+			</div>
+		
 		</div>
 	</div>
 	<button class="nav-button" id="prev">&#8592;</button>
