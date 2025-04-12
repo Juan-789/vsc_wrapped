@@ -61,6 +61,65 @@ export function activate (context: vscode.ExtensionContext) {
 			}
 		}});
 	context.subscriptions.push(saveStatsCommand);
+
+	const wrapped = vscode.commands.registerCommand('vscwrapped.wrapped', () => {
+		const panel = vscode.window.createWebviewPanel(
+		'codeWrapped',
+		'Your Code Wrapped',
+		vscode.ViewColumn.One,
+		{
+			enableScripts: true,
+			retainContextWhenHidden: true
+		}
+		);
+		panel.webview.html = webviewContent(context, panel.webview);
+	});
+	context.subscriptions.push(wrapped);
+}
+
+function webviewContent(context: vscode.ExtensionContext, webview: vscode.Webview): string {
+	const devExperience = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'devExperienceCat.png'));
+	const n3Solutions = webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src/assets', 'n3_solutions.jpg'));
+
+	return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSC Wrapped</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', sans-serif;
+			margin: 0;
+			overflow: hidden;
+			background: #111;
+			color: white;
+		}
+		.slide {
+			height: 100vh;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 2em;
+			animation: fadeIn 1s ease;
+      	}
+	</style>
+</head>
+<body>
+	<div class="slide">
+		<h1>🎉 You coded 120 hours in C++! </h1>
+		<img src="${n3Solutions}" style=" width:25%; border-radius:20px;" />
+	</div>
+    <div class="slide">
+	🔥 Most common bug: “missing ;”
+		<img src="${devExperience}" style="width:80%; border-radius:20px;" />
+	</div>
+    <div class="slide">😬 4 hours spent on segfaults</div>
+    <div class="slide">🚀 You pushed code in 7 projects</div>
+    <div class="slide">✨ Keep going, legend.</div>
+</body>
+</html>`;
 }
 
 // This method is called when your extension is deactivated

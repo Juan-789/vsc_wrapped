@@ -20,6 +20,10 @@
       {
         "command": "vscwrapped.saveStats",
         "title": "Save Stats"
+      },
+      {
+        "command": "vscwrapped.wrapped",
+        "title": "Your VSCWrapped"
       }
     ]
   },
