@@ -1,5 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+import { timeStamp } from 'console';
 import * as vscode from 'vscode';
 
 // This method is called when your extension is activated
@@ -15,15 +16,15 @@ async function saveDiagnosticsStat(context: vscode.ExtensionContext, newEntry: a
 		const data = await vscode.workspace.fs.readFile(fileUri);
 		existing = JSON.parse(data.toString());
 	} catch (e) {
-		console.log('No existing file foung. Creating new one.');
+		console.log('No existing file found. Creating new one.');
 	}
 	
 	existing.push(newEntry);
-
+	console.log('pushed', newEntry);
 	await vscode.workspace.fs.writeFile(fileUri, Buffer.from(JSON.stringify(existing, null, 2)));
 }
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate (context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -40,23 +41,26 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposable);
 
-	const writingToFile = vscode.commands.registerCommand('vscwrapped.saveStats', () =>{
+	const saveStatsCommand = vscode.commands.registerCommand('vscwrapped.saveStats', async () =>{
 		const currentFile = vscode.window.activeTextEditor;
 		console.log(currentFile?.document.fileName);
 		if (currentFile) {
 			// const uri = currentFile.document.uri;
 			const diagnostics = vscode.languages.getDiagnostics();
-			diagnostics.forEach(([uri, diagnosticArray]) => {
-				diagnosticArray.forEach(diagnostic => {
+			for (const [uri, diagnosticArray] of diagnostics){
+				for (const diagnostic of diagnosticArray){
 					vscode.window.showInformationMessage(diagnostic.message);
-					saveDiagnosticsStat(context, diagnostic.message);
-				});
-				// const dis2 = vscode.commands.registerCommand('vscwrapped.helloWorld', () => {
-				// 	vscode.window.showInformationMessage(diagnostic.message);
-			});
-		}
-	});
-	
+						await saveDiagnosticsStat(context, {
+							timeStamp: new Date().toISOString(),
+							message: diagnostic.message,
+							uri: uri.toString(),
+							severity: diagnostic.severity,
+							language: currentFile.document.languageId
+						});
+				}
+			}
+		}});
+	context.subscriptions.push(saveStatsCommand);
 }
 
 // This method is called when your extension is deactivated
