@@ -1,12 +1,3 @@
-// import yippieCat from './assets/yippee-Cat.gif';
-// import wereSoBack from './assets/wereBack.gif';
-// import touchGrass from './assets/touch-grass.gif';
-// import cppShredded from './assets/shreddedHead.jpg';
-// import cppClasses from './assets/noClass.jpg';
-// import n3Solutions from './assets/n3_solutions.jpg';
-// import segfaults from './assets/segfault.jpg';
-// import lost from './assets/lost_}.gif';
-// import devExperience from './assets/devExperienceCat.png';
 import './App.css';
 import { useState } from 'react';
 
