@@ -45,7 +45,6 @@ export function activate (context: vscode.ExtensionContext) {
 		const currentFile = vscode.window.activeTextEditor;
 		console.log(currentFile?.document.fileName);
 		if (currentFile) {
-			// const uri = currentFile.document.uri;
 			const diagnostics = vscode.languages.getDiagnostics();
 			for (const [uri, diagnosticArray] of diagnostics){
 				for (const diagnostic of diagnosticArray){
