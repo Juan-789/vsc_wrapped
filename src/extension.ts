@@ -1,5 +1,3 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import { timeStamp } from 'console';
 import * as vscode from 'vscode';
 import * as fs from 'fs';
@@ -75,9 +73,7 @@ export function activate (context: vscode.ExtensionContext) {
 			localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'webview-ui', 'dist')]
 		}
 		);
-		// const scriptUri = panel.webview.asWebviewUri(
-		// 	vscode.Uri.joinPath(context.extensionUri, 'webview-ui', 'dist', 'assets', 'index.js')
-		// );
+	
 		const assetDir = path.join(context.extensionPath, 'webview-ui', 'dist', 'assets');
 		const files = fs.readdirSync(assetDir);
 
@@ -91,9 +87,7 @@ export function activate (context: vscode.ExtensionContext) {
 		vscode.Uri.joinPath(context.extensionUri, 'webview-ui', 'dist', 'assets', cssFile!)
 		);
 		  
-		// const styleUri = panel.webview.asWebviewUri(
-		// 	vscode.Uri.joinPath(context.extensionUri, 'webview-ui', 'dist', 'assets', 'index.css')
-		// );
+
 		panel.webview.html = `
 			<!DOCTYPE html>
 			<html lang="en">
